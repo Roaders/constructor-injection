@@ -1,6 +1,10 @@
 # constructor-injection
 
 [![Build Status](https://travis-ci.org/Roaders/cineworld-planner.svg?branch=master)](https://travis-ci.org/Roaders/cineworld-planner)
+![NPM version](https://img.shields.io/npm/v/constructor-injection)
+![Dependencies](https://img.shields.io/david/roaders/constructor-injection)
+![Typescript](https://camo.githubusercontent.com/d81d2d42b56e290c0d4d74eb425e19242f4f2d3d/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f74797065732f73637275622d6a732e737667)
+
 
 ## Install
 
