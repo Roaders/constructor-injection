@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "karma start --singleRun",
+        "test": "karma start --singleRun --browsers ChromeHeadlessNoSandbox",
         "watch-test": "karma start",
         "build": "tsc",
         "watch-build": "tsc --watch",
