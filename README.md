@@ -57,4 +57,4 @@ class ClassWithParameters {
 }
 ```
 
-Minimum Typescript version: `3.0`
+Minimum Typescript version: `3.1`
