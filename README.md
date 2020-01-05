@@ -1,5 +1,7 @@
 # constructor-injection
 
+[![Build Status](https://travis-ci.org/Roaders/cineworld-planner.svg?branch=master)](https://travis-ci.org/Roaders/cineworld-planner)
+
 ## Install
 
 ```
