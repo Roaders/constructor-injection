@@ -1,0 +1,6 @@
+src/
+.vscode/
+dist/**/*.spec.js
+karma.conf.js
+tsconfig.json
+tslint.json

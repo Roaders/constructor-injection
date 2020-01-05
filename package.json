@@ -1,12 +1,15 @@
 {
     "name": "constructor-injection",
     "version": "1.0.0",
-    "description": "",
+    "description": "Helper function to convert a class with constructor arguments into a class that does not require any arguments (or somewhere in between). Intended for use in dependency injection.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "karma start --singleRun",
-        "watch-test": "karma start"
+        "watch-test": "karma start",
+        "build": "tsc",
+        "watch-build": "tsc --watch",
+        "prepublishOnly": "npm install && npm test && npm run build && npm version patch"
     },
     "repository": {
         "type": "git",
@@ -26,11 +29,12 @@
         "karma": "^4.4.1",
         "karma-chrome-launcher": "^3.1.0",
         "karma-jasmine": "^2.0.1",
+        "karma-jasmine-html-reporter": "^1.5.1",
         "karma-sourcemap-loader": "^0.3.7",
         "karma-webpack": "^4.0.2",
         "ts-loader": "^6.2.1",
         "tslint": "^5.20.1",
-        "typescript": "^3.0.3",
+        "typescript": "^3.1.6",
         "webpack": "^4.41.5"
     },
     "dependencies": {
