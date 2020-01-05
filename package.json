@@ -1,0 +1,39 @@
+{
+    "name": "constructor-injection",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "karma start --singleRun",
+        "watch-test": "karma start"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Roaders/constructor-injection.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Roaders/constructor-injection/issues"
+    },
+    "homepage": "https://github.com/Roaders/constructor-injection#readme",
+    "devDependencies": {
+        "@types/jasmine": "^3.5.0",
+        "@types/node": "^13.1.4",
+        "jasmine": "^3.5.0",
+        "jasmine-core": "^3.5.0",
+        "karma": "^4.4.1",
+        "karma-chrome-launcher": "^3.1.0",
+        "karma-jasmine": "^2.0.1",
+        "karma-sourcemap-loader": "^0.3.7",
+        "karma-webpack": "^4.0.2",
+        "ts-loader": "^6.2.1",
+        "tslint": "^5.20.1",
+        "typescript": "^3.0.3",
+        "webpack": "^4.41.5"
+    },
+    "dependencies": {
+        "reflect-metadata": "^0.1.13"
+    }
+}
