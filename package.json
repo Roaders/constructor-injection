@@ -1,6 +1,6 @@
 {
     "name": "constructor-injection",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Helper function to convert a class with constructor arguments into a class that does not require any arguments (or somewhere in between). Intended for use in dependency injection.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
