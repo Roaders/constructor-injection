@@ -1,24 +1,14 @@
 import "reflect-metadata";
+import {
+    AnyParams,
+    Constructor,
+    FunctionWithParams,
+    InjectedConstructor,
+    InjectedFunction,
+    ParameterProvider,
+} from "./types";
 
 // tslint:disable: ban-types
-// tslint:disable: max-classes-per-file
-
-/**
- * A function to provide constructor parameter values
- * If a parameter was passed to the wrapped constructor it is passed as the first argument
- * Reflect Metadata (usually the type of the parameter) is passed as the second argument
- */
-export type ParameterProvider = (passedParameter: any, reflectData: any) => any;
-
-type Constructor = new (...args: any[]) => any;
-type Function = (...args: any[]) => any;
-type ConstructorParams<T extends Constructor> = T extends new (...args: infer P) => any ? P : never;
-type FunctionParams<T extends Function> = T extends (...args: infer P) => any ? P : never;
-type AnyParams<T extends any[]> = {[P in keyof T]: any};
-type InjectedConstructor<T extends Constructor, P extends any[]> =
-    T extends new (...args: any[]) => infer R ? new (...args: P) => R : never;
-type InjectedFunction<T extends Function, P extends any[]> =
-    T extends (...args: any) => infer R ? (...args: P) => R : never;
 
 /**
  * Converts a class constructor with parameters into a constructor with optional parameters.
@@ -32,7 +22,7 @@ export function injectConstructor<T extends new (...args: any[]) => any>(
     type: T,
     parameterProvider: ParameterProvider,
 ) {
-    return createClassOptionalConstructorParams<T, ConstructorParams<T>>(type, parameterProvider);
+    return createClassOptionalConstructorParams<T, ConstructorParameters<T>>(type, parameterProvider);
 }
 
 /**
@@ -44,12 +34,12 @@ export function injectConstructor<T extends new (...args: any[]) => any>(
  * @param paramTypes The types to be constructed (unfortunately this can't be done by reflection)
  * @param parameterProvider function to lookup the constructor parameter value
  */
-export function injectFunction<T extends Function>(
+export function injectFunction<T extends FunctionWithParams>(
     func: T,
-    paramTypes: AnyParams<FunctionParams<T>>,
+    paramTypes: AnyParams<Parameters<T>>,
     parameterProvider: ParameterProvider,
     ) {
-    return createFunctionOptionalParams<T, FunctionParams<T>>(func, paramTypes as FunctionParams<T>, parameterProvider);
+    return createFunctionOptionalParams<T, Parameters<T>>(func, paramTypes as Parameters<T>, parameterProvider);
 }
 
 function createClassOptionalConstructorParams<T extends Constructor, P extends any[]>(
@@ -59,7 +49,7 @@ function createClassOptionalConstructorParams<T extends Constructor, P extends a
     return wrapClassConstructor<T, Partial<P>>(type, parameterProvider);
 }
 
-function createFunctionOptionalParams<T extends Function, P extends any[]>(
+function createFunctionOptionalParams<T extends FunctionWithParams, P extends any[]>(
     func: T,
     paramTypes: P,
     parameterProvider: ParameterProvider,
@@ -98,7 +88,7 @@ function saveMetaData() {
     return (...args: any[]) => {};
 }
 
-function wrapFunction<T extends Function, TParams extends any[]>(
+function wrapFunction<T extends FunctionWithParams, TParams extends any[]>(
     func: T,
     paramTypes: TParams,
     parameterProvider: ParameterProvider,
