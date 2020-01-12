@@ -1,5 +1,11 @@
-// tslint:disable: ban-types
-// tslint:disable: max-classes-per-file
+
+type Prepend<F, R extends any[]> = ((param: F, ...a: R) => any) extends ((...a: infer U) => any)? U : [F];
+type First<T extends any[]> = T extends [infer TFirst, ...any[]] ? TFirst : never;
+type Rest<T extends any[]> = ((...args: T) => any) extends ((f: string, ...t: infer TRest) => any) ? TRest : never;
+
+export interface IFunctionWithMetadata<TParams extends any[]> extends FunctionWithParams<TParams> {
+    __functionParamMetadata: MapMeta<TParams>;
+}
 
 /**
  * A function to provide constructor parameter values
@@ -10,43 +16,14 @@ export type ParameterProvider = (passedParameter: any, reflectData: any) => any;
 
 export type Constructor = new (...args: any[]) => any;
 export type FunctionWithParams<P extends any[] = any[]> = (...args: P) => any;
-export type AnyParams<T extends any[]> = {[P in keyof T]: any};
+
 export type InjectedConstructor<T extends Constructor, P extends any[]> =
     T extends new (...args: any[]) => infer R ? new (...args: P) => R : never;
 export type InjectedFunction<T extends FunctionWithParams, P extends any[]> =
     T extends (...args: any) => infer R ? (...args: P) => R : never;
 
-export type NO_META = "noMeta";
-export const noMeta: NO_META = "noMeta";
-
-export type Meta<T> = T extends String | Number | Boolean | Function ? NO_META : (new (...args: any[]) => T) | NO_META;
+export type Meta<T> = new (...args: any[]) => T;
 export type MapMeta<T extends any[]> = {
     [P in keyof T]?: Meta<T[P]>;
 };
-
-export interface IFunctionWithMetadata<TParams extends any[]> extends FunctionWithParams<TParams> {
-    meta: MapMeta<TParams>;
-}
-
-export function isDecorated<TParams extends any[]>(func: (...args: TParams) => any)
-    : func is IFunctionWithMetadata<TParams> {
-    return func != null && Array.isArray((func as IFunctionWithMetadata<TParams>).meta);
-}
-
-export function addMetadata<TFunc extends (...args: any[]) => any>(func: TFunc, meta: MapMeta<Parameters<TFunc>>) {
-    return func;
-}
-
-class MyClass {
-    public one = "one";
-}
-
-function myFunc(one: string, two: number, three: MyClass, four: boolean) {
-    return three.one;
-}
-
-const decorated = addMetadata(myFunc, [noMeta, undefined, MyClass]);
-
-if (isDecorated(decorated)) {
-    console.log(decorated.meta.length);
-}
+export type MapFunctionParams<T extends any[]> = Partial<T>;
