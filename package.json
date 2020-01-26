@@ -1,6 +1,6 @@
 {
     "name": "constructor-injection",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "Helper function to convert a class with constructor arguments into a class that does not require any arguments (or somewhere in between). Intended for use in dependency injection.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
         "rimraf": "^3.0.0",
         "ts-loader": "^6.2.1",
         "tslint": "^5.20.1",
-        "typescript": "^3.1.6",
+        "typescript": "^3.3.4000",
         "webpack": "^4.41.5"
     },
     "dependencies": {

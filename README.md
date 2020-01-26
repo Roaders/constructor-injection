@@ -14,8 +14,10 @@ npm install constructor-injection
 
 ## Example Usage
 
+### Constructor Injection
+
 ```typescript
-import {} from "constructor-injection";
+import { injectConstructor } from "constructor-injection";
 
 @Injectable() // from Inversify or Angular for example
 class ClassWithParameters {
@@ -35,6 +37,34 @@ function resolveParameter: ParameterProvider = (passedParameter: any, reflectMet
 const injectedConstructor = injectConstructor(ClassWithParameters, resolveParameter);
 
 const instance = new injectedConstructor();
+```
+
+### Function Injection
+
+A similar approach can be used to provide values for function parameters. Unfortunately the metadata for function parameters isn't currently available so we need to provide the metadata for the function parameters ourselves.
+
+```typescript
+import { injectFunction } from "constructor-injection";
+
+function functionWithParameters(
+    paramOne: string,
+    paramTwo: ClassWithNoParams,
+    paramThree: ClassWithParameters): string {
+    return "return value";
+}
+
+function resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any){
+    // Logic to provide correct parameter value
+    // For example if inversify is your DI library:
+    return passedParameter != null ? passedParameter : inversifyContainer.getType(reflectMetadata);
+}
+
+const injectedFunction = injectFunction( // typed as (paramOne?: string, paramTwo?: ClassWithNoParams, paramThree?: ClassWithParameters) => string
+    functionWithParameters, 
+    [ undefined, ClassWithNoParams, ClassWithParameters ], // provide types to inject 
+    resolveParameter);
+
+injectedFunctions("stringValueThatCantBeInjected"); // call function
 ```
 
 ## Setup
