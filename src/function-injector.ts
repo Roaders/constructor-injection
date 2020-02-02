@@ -1,12 +1,11 @@
-import { isDecoratedFunction } from "./type-guards";
+import { isDecoratedFunction } from './type-guards';
 import {
+    FunctionOptionalParams,
     FunctionWithParams,
     IFunctionWithMetadata,
-    InjectedFunction,
-    MapFunctionParams,
     MapMeta,
     ParameterProvider,
-} from "./types";
+} from './types';
 
 export function addFunctionMetadata<TFunc extends (...args: any[]) => any>(
     func: TFunc,
@@ -32,24 +31,10 @@ export function injectFunction<TFunc extends FunctionWithParams>(
     func: TFunc,
     paramMetadata: MapMeta<Parameters<TFunc>>,
     parameterProvider: ParameterProvider,
-    ) {
+    ): FunctionOptionalParams<TFunc> {
 
     addFunctionMetadata(func, paramMetadata);
 
-    return createFunctionOptionalParams<TFunc, Parameters<TFunc>>(func, parameterProvider);
-}
-
-function createFunctionOptionalParams<TFunc extends FunctionWithParams, P extends any[]>(
-    func: TFunc,
-    parameterProvider: ParameterProvider,
-) {
-    return wrapFunction<TFunc, MapFunctionParams<P>>(func, parameterProvider);
-}
-
-function wrapFunction<T extends FunctionWithParams, TParams extends any[]>(
-    func: T,
-    parameterProvider: ParameterProvider,
-) {
     let params: any[] = [];
 
     if (isDecoratedFunction(func)) {
@@ -57,17 +42,17 @@ function wrapFunction<T extends FunctionWithParams, TParams extends any[]>(
     }
 
     if (params == null || params.length == null || params.length === 0) {
-        return func as unknown as InjectedFunction<T, TParams>;
+        return func as unknown as FunctionOptionalParams<TFunc>;
     }
 
     return ((...args: any[]) => {
 
         function resolveParameter(paramReflect: any, index: number) {
-            return parameterProvider(args[index], paramReflect);
+            return parameterProvider(args[index], paramReflect, index);
         }
 
         const functionParams = params.map(resolveParameter);
 
         return func(...functionParams);
-    }) as unknown as InjectedFunction<T, TParams>;
+    }) as unknown as FunctionOptionalParams<TFunc>;
 }

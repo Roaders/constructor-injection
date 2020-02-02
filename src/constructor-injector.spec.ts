@@ -1,5 +1,5 @@
-import { injectConstructor } from "./constructor-injector";
-import { ParameterProvider } from "./types";
+import { injectConstructor } from './constructor-injector';
+import { ParameterProvider } from './types';
 
 // tslint:disable: max-classes-per-file
 
@@ -11,12 +11,12 @@ function saveMetaData() {
 
 @saveMetaData()
 class ClassWithNoParams {
-    public readonly type = "ClassWithNoParams";
+    public readonly type = 'ClassWithNoParams';
 }
 
 @saveMetaData()
 class ClassWithParameters {
-    public readonly type = "ClassWithParameters";
+    public readonly type = 'ClassWithParameters';
     constructor(
         public readonly paramOne: string,
         public readonly paramTwo: number,
@@ -31,7 +31,7 @@ const parameterProvider: ParameterProvider = (passed: any, reflect: any) => {
 
     switch (reflect) {
         case String:
-            return "stringArg";
+            return 'stringArg';
         case Number:
             return 5;
         case Boolean:
@@ -42,29 +42,29 @@ const parameterProvider: ParameterProvider = (passed: any, reflect: any) => {
     }
 };
 
-describe("constructor-injection", () => {
+describe('constructor-injection', () => {
 
-    it("should return original class if there are no parameters", () => {
+    it('should return original class if there are no parameters', () => {
 
         const injectedConstructor = injectConstructor(ClassWithNoParams, parameterProvider);
 
         expect(injectedConstructor).toBe(ClassWithNoParams);
     });
 
-    it("should use params from provider when no params passed to constructor", () => {
+    it('should use params from provider when no params passed to constructor', () => {
         const injectedConstructor = injectConstructor(ClassWithParameters, parameterProvider);
         const instance = new injectedConstructor();
 
-        expect(instance.paramOne).toEqual("stringArg");
+        expect(instance.paramOne).toEqual('stringArg');
         expect(instance.paramTwo).toEqual(5);
         expect(instance.paramThree).toEqual(true);
     });
 
-    it("should use passed params when provided", () => {
+    it('should use passed params when provided', () => {
         const injectedConstructor = injectConstructor(ClassWithParameters, parameterProvider);
-        const instance = new injectedConstructor("passedParamValue", 6, false);
+        const instance = new injectedConstructor('passedParamValue', 6, false);
 
-        expect(instance.paramOne).toEqual("passedParamValue");
+        expect(instance.paramOne).toEqual('passedParamValue');
         expect(instance.paramTwo).toEqual(6);
         expect(instance.paramThree).toEqual(false);
     });

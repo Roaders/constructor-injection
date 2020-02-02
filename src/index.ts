@@ -1,2 +1,3 @@
-export * from "./constructor-injector";
-export * from "./types";
+export * from './constructor-injector';
+export * from './function-injector';
+export * from './types';

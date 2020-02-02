@@ -1,9 +1,5 @@
-import "reflect-metadata";
-import {
-    Constructor,
-    InjectedConstructor,
-    ParameterProvider,
-} from "./types";
+import 'reflect-metadata';
+import { ConstructorOptionalParams, ParameterProvider } from './types';
 
 /**
  * Converts a class constructor with parameters into a constructor with optional parameters.
@@ -16,38 +12,24 @@ import {
 export function injectConstructor<T extends new (...args: any[]) => any>(
     type: T,
     parameterProvider: ParameterProvider,
-) {
-    return createClassOptionalConstructorParams<T, ConstructorParameters<T>>(type, parameterProvider);
-}
+): ConstructorOptionalParams<T> {
 
-function createClassOptionalConstructorParams<T extends Constructor, P extends any[]>(
-    type: T,
-    parameterProvider: ParameterProvider,
-) {
-    return wrapClassConstructor<T, Partial<P>>(type, parameterProvider);
-}
-
-function wrapClassConstructor<T extends Constructor, TParams extends any[]>(
-    type: T,
-    parameterProvider: ParameterProvider,
-) {
-
-    const params: any[] = Reflect.getMetadata("design:paramtypes", type);
+    const params: any[] = Reflect.getMetadata('design:paramtypes', type);
 
     if (params == null || params.length == null || params.length === 0) {
-        return type as unknown as InjectedConstructor<T, TParams>;
+        return type as unknown as  ConstructorOptionalParams<T>;
     }
 
     return class extends type {
         constructor(...args: any[]) {
 
             function resolveParameter(paramReflect: any, index: number) {
-                return parameterProvider(args[index], paramReflect);
+                return parameterProvider(args[index], paramReflect, index);
             }
 
             const constructorParams = params.map(resolveParameter);
 
             super(...constructorParams);
         }
-    } as unknown as InjectedConstructor<T, TParams>;
+    } as unknown as ConstructorOptionalParams<T>;
 }

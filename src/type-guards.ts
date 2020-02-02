@@ -1,4 +1,4 @@
-import { IFunctionWithMetadata } from "./types";
+import { IFunctionWithMetadata } from './types';
 
 export function isDecoratedFunction<TParams extends any[]>(
     func: (...args: TParams) => any): func is IFunctionWithMetadata<TParams> {
