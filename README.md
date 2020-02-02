@@ -28,11 +28,11 @@ class ClassWithParameters {
     }
 }
 
-function resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any){
+const resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any, index: number) => {
     // Logic to provide correct parameter value
     // For example if inversify is your DI library:
-    return passedParameter != null ? passedParameter : inversifyContainer.getType(reflectMetadata);
-}
+    return passedParameter != null ? passedParameter : inversifyContainer.get(reflectMetadata);
+};
 
 const injectedConstructor = injectConstructor(ClassWithParameters, resolveParameter);
 
@@ -53,11 +53,11 @@ function functionWithParameters(
     return "return value";
 }
 
-const resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any) => {
+const resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any, index: number) => {
     // Logic to provide correct parameter value
     // For example if inversify is your DI library:
-    return passedParameter != null ? passedParameter : inversifyContainer.getType(reflectMetadata);
-}
+    return passedParameter != null ? passedParameter : inversifyContainer.get(reflectMetadata);
+};
 
 const injectedFunction = injectFunction( // typed as (paramOne?: string, paramTwo?: ClassWithNoParams, paramThree?: ClassWithParameters) => string
     functionWithParameters, 
@@ -93,7 +93,7 @@ class ClassWithParameters {
 }
 ```
 
-you must alos install and import `reflect-metadata` somwhere in your app - preferably as the first import.
+you must also install and import `reflect-metadata` somwhere in your app - preferably as the first import.
 
 ```
 npm install reflect-metadata
