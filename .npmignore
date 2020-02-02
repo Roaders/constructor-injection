@@ -4,3 +4,4 @@ dist/**/*.spec.*
 karma.conf.js
 tsconfig.json
 tslint.json
+*.tgz

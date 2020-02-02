@@ -53,7 +53,7 @@ function functionWithParameters(
     return "return value";
 }
 
-function resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any){
+const resolveParameter: ParameterProvider = (passedParameter: any, reflectMetadata: any) => {
     // Logic to provide correct parameter value
     // For example if inversify is your DI library:
     return passedParameter != null ? passedParameter : inversifyContainer.getType(reflectMetadata);
@@ -93,4 +93,14 @@ class ClassWithParameters {
 }
 ```
 
-Minimum Typescript version: `3.1`
+you must alos install and import `reflect-metadata` somwhere in your app - preferably as the first import.
+
+```
+npm install reflect-metadata
+```
+
+```typescript
+import "reflect-metadata";
+```
+
+Minimum Typescript version: `3.5`

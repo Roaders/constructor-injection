@@ -9,14 +9,15 @@
         "test": "karma start --singleRun --browsers ChromeHeadlessNoSandbox",
         "watch-test": "karma start",
         "build": "tsc",
+        "lint": "tslint -p tsconfig.json",
         "watch-build": "tsc --watch",
-        "prepublishOnly": "npm install && npm run clean && npm test && npm run build && npm version patch"
+        "build-release": "concurrently --kill-others-on-fail npm:test npm:build npm:lint",
+        "prepublishOnly": "npm install && npm run clean && npm build-release && npm version patch"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Roaders/constructor-injection.git"
     },
-    "author": "",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/Roaders/constructor-injection/issues"
@@ -35,11 +36,13 @@
         "karma-webpack": "^4.0.2",
         "rimraf": "^3.0.0",
         "ts-loader": "^6.2.1",
+        "ts-toolbelt": "^4.14.6",
         "tslint": "^5.20.1",
-        "typescript": "^3.3.4000",
+        "typescript": "^3.5.3",
         "webpack": "^4.41.5"
     },
     "dependencies": {
+        "concurrently": "^5.1.0",
         "reflect-metadata": "^0.1.13"
     }
 }
