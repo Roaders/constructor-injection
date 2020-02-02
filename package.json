@@ -12,7 +12,7 @@
         "lint": "tslint -p tsconfig.json",
         "watch-build": "tsc --watch",
         "build-release": "concurrently --kill-others-on-fail npm:test npm:build npm:lint",
-        "prepublishOnly": "npm install && npm run clean && npm build-release && npm version patch"
+        "prepublishOnly": "npm install && npm run clean && npm run build-release && npm version patch"
     },
     "repository": {
         "type": "git",
